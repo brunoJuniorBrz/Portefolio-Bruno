@@ -161,12 +161,12 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-12 lg:py-16">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           
           {/* Text Content */}
           <motion.div
-            className="lg:w-1/2 text-center lg:text-left"
+            className="w-[80%] sm:w-full lg:w-1/2 text-center lg:text-left mx-auto lg:mx-0"
             initial={{ opacity: 0, x: -100 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: [0.6, -0.05, 0.01, 0.99] }}
@@ -177,8 +177,9 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
             >
-              <span className="inline-flex flex-wrap items-baseline justify-center lg:justify-start gap-x-2">
-                <span className="gradient-text glow-text whitespace-nowrap">Transformo ideias em sites</span>
+              <span className="block gradient-text glow-text whitespace-nowrap">Transformo ideias em</span>
+              <span className="inline-flex flex-nowrap items-baseline justify-center lg:justify-start gap-x-2 mt-2">
+                <span className="gradient-text glow-text whitespace-nowrap">sites</span>
                 <span className="hero-rotating-word">
                   <span className="hero-typed-text">{displayText || '\u00A0'}</span>
                   <span className="hero-caret" />
@@ -192,7 +193,7 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <div className="relative overflow-hidden rounded-2xl border border-purple-500/30 bg-[rgba(20,20,30,0.92)] p-3.5 shadow-[0_16px_40px_rgba(168,85,247,0.2)] backdrop-blur-xl font-mono text-xs sm:text-[0.9rem] text-white/90">
+              <div className="relative overflow-hidden rounded-2xl border border-purple-500/30 bg-[rgba(20,20,30,0.92)] p-3.5 shadow-[0_16px_40px_rgba(168,85,247,0.2)] backdrop-blur-xl font-mono text-xs sm:text-[0.9rem] text-white/90 text-left">
                 <div className="flex gap-2 mb-6 pb-4 border-b border-white/10">
                   <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
                   <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
