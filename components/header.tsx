@@ -3,7 +3,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { Menu, X, User, Briefcase, Code, Mail } from 'lucide-react'
+import { Menu, X, User, Briefcase, Code, Mail, Rocket, Quote } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
 const navigation = [
@@ -11,6 +11,8 @@ const navigation = [
   { name: 'Sobre', href: '#about', icon: User },
   { name: 'Serviços', href: '#services', icon: Code },
   { name: 'Portfólio', href: '#portfolio', icon: Briefcase },
+  { name: 'Processo', href: '#processo', icon: Rocket },
+  { name: 'Depoimentos', href: '#depoimentos', icon: Quote },
   { name: 'Contato', href: '#contact', icon: Mail },
 ]
 

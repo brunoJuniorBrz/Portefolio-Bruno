@@ -132,27 +132,83 @@
 
 /* Animated gradient text */
 .gradient-text {
-  background: linear-gradient(
-    90deg,
-    #a855f7,
-    #c084fc,
-    #e879f9,
-    #c084fc,
-    #a855f7
-  );
-  background-size: 200% auto;
+  background: linear-gradient(45deg, #a855f7, #ec4899, #f59e0b);
+  background-size: 200% 200%;
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  animation: gradientShift 3s linear infinite;
+  animation: gradientMove 3s ease infinite;
 }
 
-@keyframes gradientShift {
-  0% {
+@keyframes gradientMove {
+  0%,
+  100% {
     background-position: 0% 50%;
   }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+/* Hero typography */
+.hero-heading {
+  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-weight: 800;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.hero-rotating-word {
+  display: inline-flex;
+  align-items: center;
+  color: #a855f7;
+  min-width: 14ch;
+  text-align: left;
+  position: relative;
+  vertical-align: middle;
+  overflow: hidden;
+}
+
+.hero-typed-text {
+  display: inline-block;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  min-height: 1.2em;
+}
+
+.hero-caret {
+  width: 2px;
+  height: 1.2em;
+  background: #a855f7;
+  margin-left: 6px;
+  animation: heroCaretBlink 1s steps(1) infinite;
+}
+
+@keyframes heroCaretBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  51%,
   100% {
-    background-position: 200% 50%;
+    opacity: 0;
+  }
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #c4b5fd;
+  margin-top: 20px;
+  line-height: 1.6;
+}
+
+@media (max-width: 768px) {
+  .hero-heading {
+    font-size: 2.5rem;
+  }
+
+  .hero-rotating-word {
+    min-width: 11ch;
   }
 }
 

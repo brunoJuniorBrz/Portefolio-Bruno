@@ -2,13 +2,113 @@
 "use client"
 
 import { motion } from 'framer-motion'
-import { ArrowDown, Mail, Github, Linkedin, Sparkles } from 'lucide-react'
+import { Github, Linkedin, MessageSquare, Sparkles } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 
 export function HeroSection() {
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const words = useMemo(() => ['modernos.', 'rápidos.', 'responsivos.'], [])
+  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [displayText, setDisplayText] = useState('')
+  const [isDeleting, setIsDeleting] = useState(false)
+  const [buttonsVisible, setButtonsVisible] = useState(false)
+  const [socialVisible, setSocialVisible] = useState(false)
+  const [showCls, setShowCls] = useState(false)
+  const [clsText, setClsText] = useState('')
+  const [terminalCycle, setTerminalCycle] = useState(0)
+  const lineBaseDelay = 0.6
+  const lineInterval = 0.5
+  const clsHoldDuration = 1.1
+  const terminalLines = useMemo(
+    () => [
+      [
+        { text: 'bruno@portfolio', className: 'text-emerald-400 font-semibold' },
+        { text: ':~$', className: 'text-sky-400 ml-2' },
+        { text: ' iniciar_superpoderes', className: 'text-purple-300' },
+      ],
+      [
+        { text: '>', className: 'text-amber-300 mr-2' },
+        { text: 'Carregando habilidades...', className: 'text-white/70' },
+      ],
+      [
+        { text: '✓', className: 'text-emerald-400 mr-2' },
+        { text: 'React.js & Next.js carregados', className: 'text-white/80' },
+      ],
+      [
+        { text: '✓', className: 'text-emerald-400 mr-2' },
+        { text: 'Performance otimizada (0.5s load)', className: 'text-white/80' },
+      ],
+      [
+        { text: '✓', className: 'text-emerald-400 mr-2' },
+        { text: 'SEO local configurado', className: 'text-white/80' },
+      ],
+      [
+        { text: '✓', className: 'text-emerald-400 mr-2' },
+        { text: 'Design responsivo ativado', className: 'text-white/80' },
+      ],
+    ],
+    []
+  )
+
+  useEffect(() => {
+    const cycleDuration = lineBaseDelay + terminalLines.length * lineInterval
+    const buttonsDelay = (cycleDuration + 0.3 + clsHoldDuration + 0.3) * 1000
+    const socialDelay = buttonsDelay + 400
+
+    const buttonsTimer = setTimeout(() => setButtonsVisible(true), buttonsDelay)
+    const socialTimer = setTimeout(() => setSocialVisible(true), socialDelay)
+
+    return () => {
+      clearTimeout(buttonsTimer)
+      clearTimeout(socialTimer)
+    }
+  }, [lineBaseDelay, lineInterval, clsHoldDuration, terminalLines.length])
+
+  useEffect(() => {
+    const cycleDuration = lineBaseDelay + terminalLines.length * lineInterval
+    const showDelay = (cycleDuration + 0.3) * 1000
+    const hideDelay = showDelay + clsHoldDuration * 1000
+    const nextCycleDelay = hideDelay + 400
+
+    const showTimer = setTimeout(() => setShowCls(true), showDelay)
+    const hideTimer = setTimeout(() => setShowCls(false), hideDelay)
+    const nextTimer = setTimeout(() => setTerminalCycle((cycle) => cycle + 1), nextCycleDelay)
+
+    return () => {
+      clearTimeout(showTimer)
+      clearTimeout(hideTimer)
+      clearTimeout(nextTimer)
+    }
+  }, [terminalCycle, lineBaseDelay, lineInterval, clsHoldDuration, terminalLines.length])
+
+  useEffect(() => {
+    if (!showCls) {
+      setClsText('')
+      return
+    }
+
+    const command = 'cls'
+    let index = 0
+    let typeTimer: ReturnType<typeof setTimeout>
+
+    const typeNext = () => {
+      setClsText(command.slice(0, index + 1))
+      index += 1
+      if (index < command.length) {
+        typeTimer = setTimeout(typeNext, 120)
+      }
+    }
+
+    typeTimer = setTimeout(typeNext, 120)
+
+    return () => {
+      if (typeTimer) {
+        clearTimeout(typeTimer)
+      }
+    }
+  }, [showCls])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -18,6 +118,30 @@ export function HeroSection() {
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, [])
 
+  useEffect(() => {
+    const currentWord = words[currentWordIndex]
+    let timeoutId: ReturnType<typeof setTimeout> | undefined
+
+    if (!isDeleting && displayText === currentWord) {
+      timeoutId = setTimeout(() => setIsDeleting(true), 1500)
+    } else if (isDeleting && displayText === '') {
+      setIsDeleting(false)
+      setCurrentWordIndex((prev) => (prev + 1) % words.length)
+    } else {
+      const nextLength = isDeleting ? displayText.length - 1 : displayText.length + 1
+      timeoutId = setTimeout(
+        () => setDisplayText(currentWord.slice(0, nextLength)),
+        isDeleting ? 60 : 120
+      )
+    }
+
+    return () => {
+      if (timeoutId) {
+        clearTimeout(timeoutId)
+      }
+    }
+  }, [displayText, isDeleting, currentWordIndex, words])
+
   const scrollToSection = (href: string) => {
     const element = document.querySelector(href)
     if (element) {
@@ -25,8 +149,12 @@ export function HeroSection() {
     }
   }
 
+  const openWhatsApp = () => {
+    window.open('https://wa.me/5511999999999', '_blank')
+  }
+
   return (
-    <section id="home" className="min-h-screen flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-[90vh] flex items-center justify-center relative overflow-hidden">
       {/* Cursor follower effect */}
       <motion.div
         className="pointer-events-none fixed top-0 left-0 w-96 h-96 rounded-full"
@@ -42,7 +170,7 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
         <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
           
           {/* Text Content */}
@@ -52,99 +180,137 @@ export function HeroSection() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, ease: [0.6, -0.05, 0.01, 0.99] }}
           >
-            <motion.div
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-500/10 border border-purple-500/20 mb-6"
-              initial={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, delay: 0.2 }}
-            >
-              <Sparkles className="h-4 w-4 text-purple-400" />
-              <span className="text-sm text-purple-300">Disponível para novos projetos</span>
-            </motion.div>
-
             <motion.h1
-              className="text-5xl sm:text-6xl lg:text-7xl font-bold mb-6"
+              className="hero-heading text-center lg:text-left text-white"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
             >
-              <span className="text-white">Bruno</span>
-              <br />
-              <span className="gradient-text glow-text">Gonçalves</span>
+              <span className="gradient-text glow-text">Transformo ideias em sites&nbsp;</span>
+              <span className="hero-rotating-word">
+                <span className="hero-typed-text">{displayText || '\u00A0'}</span>
+                <span className="hero-caret" />
+              </span>
             </motion.h1>
 
-            <motion.p
-              className="text-2xl sm:text-3xl mb-4 text-purple-300 font-semibold"
+            <motion.div
+              className="mt-8 w-full max-w-xl mx-auto lg:mx-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.5 }}
+              transition={{ duration: 0.8, delay: 0.5 }}
             >
-              Desenvolvedor Web
-            </motion.p>
-
-            <motion.p
-              className="text-lg mb-8 text-white/70 max-w-2xl leading-relaxed"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.7 }}
-            >
-              Transformo ideias em experiências digitais incríveis. Especializado em criar 
-              sites institucionais, landing pages e sistemas web que impulsionam resultados.
-            </motion.p>
+              <div className="relative overflow-hidden rounded-2xl border border-purple-500/30 bg-[rgba(20,20,30,0.92)] p-6 shadow-[0_20px_60px_rgba(168,85,247,0.3)] backdrop-blur-xl font-mono text-sm md:text-base text-white/90">
+                <div className="flex gap-2 mb-6 pb-4 border-b border-white/10">
+                  <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
+                  <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
+                  <span className="h-3 w-3 rounded-full bg-[#27c93f]" />
+                </div>
+                <div key={terminalCycle} className="space-y-2">
+                  {terminalLines.map((segments, index) => (
+                    <motion.div
+                      key={index}
+                      className="leading-relaxed"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.4, delay: lineBaseDelay + index * lineInterval }}
+                    >
+                      {segments.map((segment, partIndex) => (
+                        <span key={partIndex} className={segment.className}>
+                          {segment.text}
+                        </span>
+                      ))}
+                    </motion.div>
+                  ))}
+                  <motion.div
+                    className="leading-relaxed"
+                    initial={{ opacity: 0, y: 6 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.4, delay: lineBaseDelay + terminalLines.length * lineInterval }}
+                    >
+                      <span className="text-emerald-300 mr-2">{'>'}</span>
+                      <span className="text-white">
+                        Pronto para transformar seu negócio! <span role="img" aria-label="Foguete">🚀</span>
+                      </span>
+                    <motion.span
+                      className="ml-3 inline-block h-4 w-1 bg-purple-400 align-middle"
+                      animate={{ opacity: [0, 1, 0] }}
+                      transition={{ duration: 1, repeat: Infinity }}
+                    />
+                  </motion.div>
+                  {showCls && (
+                    <motion.div
+                      key="cls-line"
+                      className="leading-relaxed"
+                      initial={{ opacity: 0, y: 6 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                  <span className="text-emerald-400 font-semibold">bruno@portfolio</span>
+                  <span className="text-sky-400 ml-2">:~$</span>
+                  <span className="text-purple-300 ml-2">{clsText}</span>
+                  <motion.span
+                    className="ml-1 inline-block h-4 w-1 bg-purple-400 align-middle"
+                    animate={{ opacity: [0, 1, 0] }}
+                    transition={{ duration: 1, repeat: Infinity }}
+                  />
+                </motion.div>
+              )}
+                </div>
+              </div>
+            </motion.div>
 
             {/* Action buttons */}
             <motion.div
-              className="flex flex-col sm:flex-row gap-4 mb-8"
+              className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 1, delay: 0.9 }}
+              animate={buttonsVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6 }}
+              style={{ pointerEvents: buttonsVisible ? 'auto' : 'none' }}
             >
               <Button
-                onClick={() => scrollToSection('#contact')}
+                onClick={openWhatsApp}
                 size="lg"
-                className="bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white font-semibold px-8 py-6 text-lg btn-glow shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 transition-all"
+                className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 via-purple-500 to-pink-500 px-8 py-6 text-base font-semibold text-white shadow-[0_10px_30px_rgba(168,85,247,0.4)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_38px_rgba(168,85,247,0.6)]"
               >
-                <Mail className="mr-2 h-5 w-5" />
-                Vamos Conversar
+                <MessageSquare className="mr-2 h-5 w-5" />
+                Pedir orçamento no WhatsApp
               </Button>
-              
               <Button
                 onClick={() => scrollToSection('#portfolio')}
-                variant="outline"
                 size="lg"
-                className="border-purple-500/30 text-purple-300 hover:bg-purple-500/10 hover:border-purple-500/60 font-semibold px-8 py-6 text-lg transition-all"
+                variant="outline"
+                className="rounded-xl border border-purple-500/40 bg-white/5 px-8 py-6 text-base font-semibold text-white transition-transform duration-300 hover:-translate-y-1 hover:border-purple-400 hover:bg-purple-500/20"
               >
-                Ver Projetos
+                Ver projetos
               </Button>
             </motion.div>
 
             {/* Social links */}
             <motion.div
-              className="flex justify-center lg:justify-start gap-4"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 1, delay: 1.1 }}
+              className="mt-4 flex items-center justify-center gap-4 lg:justify-start"
+              initial={{ opacity: 0, y: 20 }}
+              animate={socialVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+              transition={{ duration: 0.6 }}
+              style={{ pointerEvents: socialVisible ? 'auto' : 'none' }}
             >
-              <motion.div whileHover={{ scale: 1.1, y: -3 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="border-purple-500/30 text-purple-400 hover:bg-purple-500/20 hover:border-purple-500/60 w-12 h-12"
-                  onClick={() => window.open('https://linkedin.com', '_blank')}
-                >
-                  <Linkedin className="h-5 w-5" />
-                </Button>
-              </motion.div>
-              <motion.div whileHover={{ scale: 1.1, y: -3 }} whileTap={{ scale: 0.95 }}>
-                <Button
-                  variant="outline"
-                  size="icon"
-                  className="border-purple-500/30 text-purple-400 hover:bg-purple-500/20 hover:border-purple-500/60 w-12 h-12"
-                  onClick={() => window.open('https://github.com', '_blank')}
-                >
-                  <Github className="h-5 w-5" />
-                </Button>
-              </motion.div>
+              <button
+                type="button"
+                onClick={() => window.open('https://linkedin.com', '_blank')}
+                aria-label="LinkedIn"
+                className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-purple-500/30 bg-[rgba(30,20,50,0.6)] text-white shadow-[0_8px_24px_rgba(168,85,247,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(168,85,247,0.4)]"
+              >
+                <span className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <Linkedin className="relative h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+              </button>
+              <button
+                type="button"
+                onClick={() => window.open('https://github.com', '_blank')}
+                aria-label="GitHub"
+                className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-purple-500/30 bg-[rgba(30,20,50,0.6)] text-white shadow-[0_8px_24px_rgba(168,85,247,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(168,85,247,0.4)]"
+              >
+                <span className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                <Github className="relative h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
+              </button>
             </motion.div>
           </motion.div>
 
@@ -216,24 +382,6 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        {/* Scroll indicator */}
-        <motion.div
-          className="absolute bottom-8 left-1/2 transform -translate-x-1/2"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1, y: [0, 10, 0] }}
-          transition={{
-            opacity: { duration: 1, delay: 1.5 },
-            y: { duration: 2, repeat: Infinity, ease: "easeInOut" }
-          }}
-        >
-          <button
-            onClick={() => scrollToSection('#about')}
-            className="text-purple-400/70 hover:text-purple-300 transition-colors flex flex-col items-center gap-2 group"
-          >
-            <span className="text-sm">Role para baixo</span>
-            <ArrowDown className="h-6 w-6 group-hover:translate-y-1 transition-transform" />
-          </button>
-        </motion.div>
       </div>
     </section>
   )

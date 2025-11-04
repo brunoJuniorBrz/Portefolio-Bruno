@@ -3,7 +3,7 @@
 
 import { motion } from 'framer-motion'
 import { useInView } from 'react-intersection-observer'
-import { ExternalLink, Calendar, Tag, Briefcase } from 'lucide-react'
+import { ExternalLink, Calendar, Briefcase } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import Image from 'next/image'
@@ -12,18 +12,16 @@ const projects = [
   {
     id: 1,
     title: 'Mineração Itapeva',
-    description: 'Site institucional completo para empresa de mineração, focando na apresentação dos serviços e fortalecimento da marca no mercado.',
+    description: 'Desenvolvi o novo site institucional da Mineração Itapeva, com foco em velocidade, SEO local e visual moderno. O projeto foi criado em Next.js e hospedado na Vercel, garantindo excelente desempenho e adaptação para dispositivos móveis.',
     image: 'https://cdn.abacus.ai/images/5be6e184-331d-43e2-a98e-bc615828c93b.png',
     url: 'https://mineracaoitapeva.com.br/',
-    category: 'Site Institucional',
+    category: 'Case real – Mineração Itapeva',
     date: '2024',
-    technologies: ['HTML', 'CSS', 'JavaScript', 'PHP', 'MySQL'],
+    technologies: ['Next.js', 'TypeScript', 'Tailwind CSS', 'Vercel'],
     features: [
-      'Design responsivo e moderno',
-      'Otimização para SEO',
-      'Painel administrativo',
-      'Galeria de projetos',
-      'Formulários de contato'
+      'SEO local pensado para o público da região',
+      'Design responsivo, claro e focado em credibilidade',
+      'Conteúdo estruturado para apresentar serviços e diferenciais'
     ]
   }
 ]
@@ -56,12 +54,15 @@ export function PortfolioSection() {
           >
             <Briefcase className="h-12 w-12 text-purple-400 mx-auto" />
           </motion.div>
-          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-6">
-            Meu <span className="gradient-text">Portfólio</span>
+          <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-4">
+            Meus <span className="gradient-text">Projetos</span>
           </h2>
           <div className="glow-line w-24 mx-auto mb-6" />
+          <p className="text-sm uppercase tracking-[0.3em] text-purple-300/80 mb-4">
+            Case real – Mineração Itapeva
+          </p>
           <p className="text-lg text-white/60 max-w-3xl mx-auto">
-            Confira alguns dos projetos que desenvolvi para clientes reais
+            Primeiro projeto entregue para cliente real, com foco em performance, SEO local e uma experiência confiável para quem visita o site.
           </p>
         </motion.div>
 

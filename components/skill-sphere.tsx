@@ -224,8 +224,8 @@ export function SkillSphere() {
         ref={canvasRef}
         className="h-full w-full rounded-xl bg-transparent touch-none"
       />
-      <div className="pointer-events-none absolute bottom-4 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-background/30 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
-        💡 Arraste para explorar a esfera
+      <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2 rounded-full border border-white/10 bg-background/30 px-3 py-1.5 text-xs font-medium text-muted-foreground backdrop-blur-sm">
+        Arraste para explorar a esfera
       </div>
     </div>
   )

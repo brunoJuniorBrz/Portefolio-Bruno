@@ -26,7 +26,7 @@ export function Footer() {
           </div>
 
           <div className="text-xs text-white/30">
-            Desenvolvedor Web Freelancer
+            Desenvolvedor web focado em sites e sistemas sob medida
           </div>
         </div>
       </div>

@@ -80,7 +80,9 @@ export function ContactSection() {
           </h2>
           <div className="glow-line w-24 mx-auto mb-6" />
           <p className="text-lg text-white/60 max-w-3xl mx-auto">
-            Tem um projeto em mente? Entre em contato e vamos transformar sua ideia em realidade
+            Quer tirar sua ideia do papel? Me envie uma mensagem e receba uma proposta personalizada.
+            <br className="hidden sm:block" />
+            Respondo em até 24 horas!
           </p>
         </motion.div>
 
@@ -239,8 +241,8 @@ export function ContactSection() {
                 <div className="mt-8 pt-8 border-t border-purple-500/20">
                   <h4 className="text-xl font-bold mb-4 gradient-text">Disponibilidade</h4>
                   <p className="text-white/70 leading-relaxed">
-                    Estou disponível para novos projetos e sempre aberto a discussões 
-                    sobre oportunidades interessantes. Respondo geralmente em até 24 horas.
+                    Estou disponível para novos projetos e pronto para entender sua ideia com atenção. Assim que a mensagem chega,
+                    respondo em até 24 horas para seguirmos com o próximo passo.
                   </p>
                 </div>
               </div>

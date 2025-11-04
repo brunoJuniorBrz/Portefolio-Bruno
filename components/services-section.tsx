@@ -10,43 +10,40 @@ const services = [
   {
     icon: Globe,
     title: 'Sites Institucionais',
-    description: 'Sites profissionais para empresas que querem marcar presença na internet',
+    description: 'Criação de sites rápidos, responsivos e otimizados para mecanismos de busca.',
+    note: 'Ideal para empresas que querem presença digital profissional.',
     features: [
-      'Design responsivo e moderno',
-      'Otimização para mecanismos de busca (SEO)',
-      'Integração com redes sociais',
-      'Painel administrativo',
-      'Hospedagem e domínio inclusos'
+      'Arquitetura pensada para SEO local',
+      'Design alinhado à identidade da marca',
+      'Integração com formulários e ferramentas de análise'
     ],
-    price: 'A partir de R$ 1.500',
+    price: 'Sob consulta',
     gradient: 'from-purple-600 to-purple-400'
   },
   {
     icon: Zap,
     title: 'Landing Pages',
-    description: 'Páginas de conversão focadas em gerar leads e vendas para seu negócio',
+    description: 'Páginas enxutas com foco total em conversão e carregamento leve.',
+    note: 'Perfeitas para campanhas e captação de clientes.',
     features: [
-      'Design otimizado para conversão',
-      'Integração com ferramentas de marketing',
-      'Formulários de captura de leads',
-      'Analytics e relatórios detalhados',
-      'Testes A/B para otimização'
+      'Estrutura otimizada para leads',
+      'Componentes leves e reutilizáveis',
+      'Integração com automações de marketing'
     ],
-    price: 'A partir de R$ 800',
+    price: 'Sob consulta',
     gradient: 'from-purple-500 to-purple-300'
   },
   {
     icon: Settings,
-    title: 'Sistemas Web',
-    description: 'Sistemas personalizados para automatizar processos do seu negócio',
+    title: 'Sistemas Web Personalizados',
+    description: 'Desenvolvimento de painéis, cadastros e dashboards conectados a banco de dados.',
+    note: 'Para quem quer automatizar processos e centralizar informações.',
     features: [
-      'Desenvolvimento sob medida',
-      'Interface intuitiva e fácil de usar',
-      'Banco de dados seguro',
-      'Backup automático',
-      'Suporte técnico especializado'
+      'Fluxos e regras de negócio sob medida',
+      'Autenticação e segurança de dados',
+      'Deploy monitorado em infraestrutura moderna'
     ],
-    price: 'Orçamento sob consulta',
+    price: 'Sob consulta',
     gradient: 'from-purple-400 to-purple-200'
   }
 ]
@@ -91,11 +88,11 @@ export function ServicesSection() {
           </h2>
           <div className="glow-line w-24 mx-auto mb-6" />
           <p className="text-lg text-white/60 max-w-3xl mx-auto">
-            Soluções web completas para impulsionar seu negócio no mundo digital
+            Soluções web criadas para gerar visibilidade, autoridade e resultado para o seu negócio.
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-10">
           {services?.map((service, index) => {
             const IconComponent = service?.icon
             return (
@@ -109,7 +106,7 @@ export function ServicesSection() {
               >
                 <div className="card-glow p-8 h-full flex flex-col">
                   <div className="text-center mb-6">
-                    <div className={`inline-flex p-4 rounded-full bg-gradient-to-br ${service?.gradient} mb-4 shadow-lg shadow-purple-500/30`}>
+                    <div className={`mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-gradient-to-br ${service?.gradient} mb-4 shadow-lg shadow-purple-500/30`}>
                       <IconComponent className="h-8 w-8 text-white" />
                     </div>
                     <h3 className="text-2xl font-bold mb-3 gradient-text hover-scale cursor-default">
@@ -118,6 +115,11 @@ export function ServicesSection() {
                     <p className="text-white/60 text-sm hover-glow cursor-default">
                       {service?.description}
                     </p>
+                    {service?.note && (
+                      <p className="text-white/50 text-xs italic mt-2 hover-glow cursor-default">
+                        {service?.note}
+                      </p>
+                    )}
                   </div>
 
                   <div className="space-y-3 mb-6 flex-grow">
@@ -148,7 +150,7 @@ export function ServicesSection() {
                       onClick={scrollToContact}
                       className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all btn-glow"
                     >
-                      Solicitar Orçamento
+                      Solicitar orçamento
                       <ArrowRight className="h-4 w-4 ml-2" />
                     </Button>
                   </div>
