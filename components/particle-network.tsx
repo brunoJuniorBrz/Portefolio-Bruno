@@ -2,7 +2,6 @@
 
 import { useEffect, useRef } from 'react'
 
-const PARTICLE_COUNT = 80
 const MAX_DISTANCE = 150
 const PARTICLE_COLOR = 'rgba(168,85,247,0.5)'
 
@@ -50,6 +49,16 @@ export function ParticleNetwork() {
     let height = window.innerHeight
     const dpi = Math.min(2, window.devicePixelRatio || 1)
 
+    const targetParticleCount = (viewportWidth: number) => {
+      if (viewportWidth < 640) {
+        return 18
+      }
+      if (viewportWidth < 1024) {
+        return 32
+      }
+      return 50
+    }
+
     const resizeCanvas = () => {
       width = window.innerWidth
       height = window.innerHeight
@@ -59,10 +68,12 @@ export function ParticleNetwork() {
       canvas.style.height = `${height}px`
       ctx.setTransform(dpi, 0, 0, dpi, 0, 0)
 
-      if (particles.length === 0) {
-        for (let i = 0; i < PARTICLE_COUNT; i++) {
-          particles.push(createParticle(width, height))
-        }
+      const desiredCount = targetParticleCount(width)
+      while (particles.length < desiredCount) {
+        particles.push(createParticle(width, height))
+      }
+      while (particles.length > desiredCount) {
+        particles.pop()
       }
     }
 
@@ -100,18 +111,20 @@ export function ParticleNetwork() {
       }
 
       // Draw connections
-      for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const particleCount = particles.length
+      const dynamicMaxDistance = width < 640 ? 90 : width < 1024 ? 120 : MAX_DISTANCE
+      for (let i = 0; i < particleCount; i++) {
         const p1 = particles[i]
-        for (let j = i + 1; j < PARTICLE_COUNT; j++) {
+        for (let j = i + 1; j < particleCount; j++) {
           const p2 = particles[j]
           const dx = p1.x - p2.x
           const dy = p1.y - p2.y
           const distance = Math.hypot(dx, dy)
 
-          if (distance < MAX_DISTANCE) {
-            const opacity = 1 - distance / MAX_DISTANCE
-            ctx.strokeStyle = `rgba(168,85,247,${opacity * 0.5})`
-            ctx.lineWidth = 1
+          if (distance < dynamicMaxDistance) {
+            const opacity = 1 - distance / dynamicMaxDistance
+            ctx.strokeStyle = `rgba(168,85,247,${opacity * 0.45})`
+            ctx.lineWidth = 0.8
             ctx.beginPath()
             ctx.moveTo(p1.x, p1.y)
             ctx.lineTo(p2.x, p2.y)

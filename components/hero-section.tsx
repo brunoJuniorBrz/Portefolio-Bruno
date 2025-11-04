@@ -15,12 +15,12 @@ export function HeroSection() {
   const [isDeleting, setIsDeleting] = useState(false)
   const [buttonsVisible, setButtonsVisible] = useState(false)
   const [socialVisible, setSocialVisible] = useState(false)
-  const [showCls, setShowCls] = useState(false)
-  const [clsText, setClsText] = useState('')
   const [terminalCycle, setTerminalCycle] = useState(0)
-  const lineBaseDelay = 0.6
-  const lineInterval = 0.5
-  const clsHoldDuration = 1.1
+  const [clsDisplay, setClsDisplay] = useState('')
+  const lineBaseDelay = 0.85
+  const lineInterval = 0.7
+  const finalPause = 1.4
+  const finalCommand = 'CLS'
   const terminalLines = useMemo(
     () => [
       [
@@ -54,7 +54,7 @@ export function HeroSection() {
 
   useEffect(() => {
     const cycleDuration = lineBaseDelay + terminalLines.length * lineInterval
-    const buttonsDelay = (cycleDuration + 0.3 + clsHoldDuration + 0.3) * 1000
+    const buttonsDelay = (cycleDuration + 0.5) * 1000
     const socialDelay = buttonsDelay + 400
 
     const buttonsTimer = setTimeout(() => setButtonsVisible(true), buttonsDelay)
@@ -64,51 +64,42 @@ export function HeroSection() {
       clearTimeout(buttonsTimer)
       clearTimeout(socialTimer)
     }
-  }, [lineBaseDelay, lineInterval, clsHoldDuration, terminalLines.length])
+  }, [lineBaseDelay, lineInterval, terminalLines.length])
 
   useEffect(() => {
-    const cycleDuration = lineBaseDelay + terminalLines.length * lineInterval
-    const showDelay = (cycleDuration + 0.3) * 1000
-    const hideDelay = showDelay + clsHoldDuration * 1000
-    const nextCycleDelay = hideDelay + 400
-
-    const showTimer = setTimeout(() => setShowCls(true), showDelay)
-    const hideTimer = setTimeout(() => setShowCls(false), hideDelay)
-    const nextTimer = setTimeout(() => setTerminalCycle((cycle) => cycle + 1), nextCycleDelay)
+    const cycleDuration = lineBaseDelay + terminalLines.length * lineInterval + finalPause
+    const nextTimer = setTimeout(() => setTerminalCycle((cycle) => cycle + 1), cycleDuration * 1000)
 
     return () => {
-      clearTimeout(showTimer)
-      clearTimeout(hideTimer)
       clearTimeout(nextTimer)
     }
-  }, [terminalCycle, lineBaseDelay, lineInterval, clsHoldDuration, terminalLines.length])
+  }, [terminalCycle, lineBaseDelay, lineInterval, finalPause, terminalLines.length])
 
   useEffect(() => {
-    if (!showCls) {
-      setClsText('')
-      return
-    }
+    let startTimer: ReturnType<typeof setTimeout> | undefined
+    let typeTimer: ReturnType<typeof setTimeout> | undefined
+    setClsDisplay('')
 
-    const command = 'cls'
-    let index = 0
-    let typeTimer: ReturnType<typeof setTimeout>
+    const startDelay = (lineBaseDelay + terminalLines.length * lineInterval) * 1000
 
-    const typeNext = () => {
-      setClsText(command.slice(0, index + 1))
-      index += 1
-      if (index < command.length) {
-        typeTimer = setTimeout(typeNext, 120)
+    const typeNext = (index: number) => {
+      setClsDisplay(finalCommand.slice(0, index + 1))
+      if (index + 1 < finalCommand.length) {
+        typeTimer = setTimeout(() => typeNext(index + 1), 180)
       }
     }
 
-    typeTimer = setTimeout(typeNext, 120)
+    startTimer = setTimeout(() => typeNext(0), startDelay)
 
     return () => {
+      if (startTimer) {
+        clearTimeout(startTimer)
+      }
       if (typeTimer) {
         clearTimeout(typeTimer)
       }
     }
-  }, [showCls])
+  }, [terminalCycle, lineBaseDelay, lineInterval, terminalLines.length, finalCommand])
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -154,7 +145,7 @@ export function HeroSection() {
   }
 
   return (
-    <section id="home" className="min-h-[90vh] flex items-center justify-center relative overflow-hidden">
+    <section id="home" className="min-h-[85vh] flex items-center justify-center relative overflow-hidden">
       {/* Cursor follower effect */}
       <motion.div
         className="pointer-events-none fixed top-0 left-0 w-96 h-96 rounded-full"
@@ -170,8 +161,8 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-16 lg:py-20">
-        <div className="flex flex-col lg:flex-row items-center justify-between gap-12">
+      <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 lg:py-14">
+        <div className="flex flex-col lg:flex-row items-center justify-between gap-8">
           
           {/* Text Content */}
           <motion.div
@@ -186,20 +177,22 @@ export function HeroSection() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1, delay: 0.3 }}
             >
-              <span className="gradient-text glow-text">Transformo ideias em sites&nbsp;</span>
-              <span className="hero-rotating-word">
-                <span className="hero-typed-text">{displayText || '\u00A0'}</span>
-                <span className="hero-caret" />
+              <span className="inline-flex flex-wrap items-baseline justify-center lg:justify-start gap-x-2">
+                <span className="gradient-text glow-text whitespace-nowrap">Transformo ideias em sites</span>
+                <span className="hero-rotating-word">
+                  <span className="hero-typed-text">{displayText || '\u00A0'}</span>
+                  <span className="hero-caret" />
+                </span>
               </span>
             </motion.h1>
 
             <motion.div
-              className="mt-8 w-full max-w-xl mx-auto lg:mx-0"
+              className="mt-4 w-full max-w-md mx-auto lg:mx-0"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5 }}
             >
-              <div className="relative overflow-hidden rounded-2xl border border-purple-500/30 bg-[rgba(20,20,30,0.92)] p-6 shadow-[0_20px_60px_rgba(168,85,247,0.3)] backdrop-blur-xl font-mono text-sm md:text-base text-white/90">
+              <div className="relative overflow-hidden rounded-2xl border border-purple-500/30 bg-[rgba(20,20,30,0.92)] p-3.5 shadow-[0_16px_40px_rgba(168,85,247,0.2)] backdrop-blur-xl font-mono text-xs sm:text-[0.9rem] text-white/90">
                 <div className="flex gap-2 mb-6 pb-4 border-b border-white/10">
                   <span className="h-3 w-3 rounded-full bg-[#ff5f56]" />
                   <span className="h-3 w-3 rounded-full bg-[#ffbd2e]" />
@@ -222,46 +215,31 @@ export function HeroSection() {
                     </motion.div>
                   ))}
                   <motion.div
-                    className="leading-relaxed"
+                    className="leading-relaxed flex items-center gap-2"
                     initial={{ opacity: 0, y: 6 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.4, delay: lineBaseDelay + terminalLines.length * lineInterval }}
-                    >
-                      <span className="text-emerald-300 mr-2">{'>'}</span>
-                      <span className="text-white">
-                        Pronto para transformar seu negócio! <span role="img" aria-label="Foguete">🚀</span>
-                      </span>
+                  >
+                    <span className="text-emerald-300 mr-2">{'>'}</span>
+                    <span className="text-white">
+                      Pronto para transformar seu negócio! <span role="img" aria-label="Foguete">🚀</span>
+                    </span>
+                    <span className="ml-1 text-xs sm:text-sm font-bold uppercase tracking-wide text-red-400">
+                      {clsDisplay || ' '}
+                    </span>
                     <motion.span
-                      className="ml-3 inline-block h-4 w-1 bg-purple-400 align-middle"
-                      animate={{ opacity: [0, 1, 0] }}
-                      transition={{ duration: 1, repeat: Infinity }}
+                      className="ml-1 inline-block h-4 w-[2px] bg-red-400 align-middle"
+                      animate={{ opacity: clsDisplay.length === finalCommand.length ? [0, 1, 0] : [1, 0, 1] }}
+                      transition={{ duration: clsDisplay.length === finalCommand.length ? 0.8 : 0.4, repeat: Infinity }}
                     />
                   </motion.div>
-                  {showCls && (
-                    <motion.div
-                      key="cls-line"
-                      className="leading-relaxed"
-                      initial={{ opacity: 0, y: 6 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                  <span className="text-emerald-400 font-semibold">bruno@portfolio</span>
-                  <span className="text-sky-400 ml-2">:~$</span>
-                  <span className="text-purple-300 ml-2">{clsText}</span>
-                  <motion.span
-                    className="ml-1 inline-block h-4 w-1 bg-purple-400 align-middle"
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  />
-                </motion.div>
-              )}
                 </div>
               </div>
             </motion.div>
 
             {/* Action buttons */}
             <motion.div
-              className="mt-8 flex flex-wrap items-center justify-center gap-4 lg:justify-start"
+              className="mt-5 flex flex-wrap items-center justify-center gap-3 lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={buttonsVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6 }}
@@ -270,7 +248,7 @@ export function HeroSection() {
               <Button
                 onClick={openWhatsApp}
                 size="lg"
-                className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 via-purple-500 to-pink-500 px-8 py-6 text-base font-semibold text-white shadow-[0_10px_30px_rgba(168,85,247,0.4)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_16px_38px_rgba(168,85,247,0.6)]"
+                className="relative overflow-hidden rounded-xl bg-gradient-to-br from-purple-500 via-purple-500 to-pink-500 px-6 py-3.5 text-sm md:text-base font-semibold text-white shadow-[0_10px_22px_rgba(168,85,247,0.3)] transition-transform duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(168,85,247,0.48)]"
               >
                 <MessageSquare className="mr-2 h-5 w-5" />
                 Pedir orçamento no WhatsApp
@@ -279,7 +257,7 @@ export function HeroSection() {
                 onClick={() => scrollToSection('#portfolio')}
                 size="lg"
                 variant="outline"
-                className="rounded-xl border border-purple-500/40 bg-white/5 px-8 py-6 text-base font-semibold text-white transition-transform duration-300 hover:-translate-y-1 hover:border-purple-400 hover:bg-purple-500/20"
+                className="rounded-xl border border-purple-500/40 bg-white/5 px-6 py-3.5 text-sm md:text-base font-semibold text-white transition-transform duration-300 hover:-translate-y-1 hover:border-purple-400 hover:bg-purple-500/20"
               >
                 Ver projetos
               </Button>
@@ -287,7 +265,7 @@ export function HeroSection() {
 
             {/* Social links */}
             <motion.div
-              className="mt-4 flex items-center justify-center gap-4 lg:justify-start"
+              className="mt-3 flex items-center justify-center gap-3 lg:justify-start"
               initial={{ opacity: 0, y: 20 }}
               animate={socialVisible ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
               transition={{ duration: 0.6 }}
@@ -297,7 +275,7 @@ export function HeroSection() {
                 type="button"
                 onClick={() => window.open('https://linkedin.com', '_blank')}
                 aria-label="LinkedIn"
-                className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-purple-500/30 bg-[rgba(30,20,50,0.6)] text-white shadow-[0_8px_24px_rgba(168,85,247,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(168,85,247,0.4)]"
+                className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-purple-500/30 bg-[rgba(30,20,50,0.6)] text-white shadow-[0_8px_20px_rgba(168,85,247,0.2)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(168,85,247,0.36)]"
               >
                 <span className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <Linkedin className="relative h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
@@ -306,7 +284,7 @@ export function HeroSection() {
                 type="button"
                 onClick={() => window.open('https://github.com', '_blank')}
                 aria-label="GitHub"
-                className="group relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-xl border border-purple-500/30 bg-[rgba(30,20,50,0.6)] text-white shadow-[0_8px_24px_rgba(168,85,247,0.25)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_14px_36px_rgba(168,85,247,0.4)]"
+                className="group relative flex h-10 w-10 items-center justify-center overflow-hidden rounded-xl border border-purple-500/30 bg-[rgba(30,20,50,0.6)] text-white shadow-[0_8px_20px_rgba(168,85,247,0.2)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_12px_28px_rgba(168,85,247,0.36)]"
               >
                 <span className="absolute inset-0 bg-gradient-to-br from-purple-500 to-pink-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
                 <Github className="relative h-5 w-5 transition-transform duration-300 group-hover:scale-110" />
@@ -337,7 +315,7 @@ export function HeroSection() {
               />
               
               <motion.div
-                className="relative w-80 h-80 rounded-full bg-gradient-to-br from-purple-500/20 to-transparent backdrop-blur-sm border-2 border-purple-500/30 p-2 shadow-2xl shadow-purple-500/30"
+                className="relative w-64 h-64 rounded-full bg-gradient-to-br from-purple-500/20 to-transparent backdrop-blur-sm border-2 border-purple-500/30 p-2 shadow-2xl shadow-purple-500/25"
                 whileHover={{ scale: 1.05 }}
                 transition={{ duration: 0.3 }}
               >
@@ -354,7 +332,7 @@ export function HeroSection() {
               
               {/* Floating elements */}
               <motion.div
-                className="absolute -top-6 -right-6 w-12 h-12 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full shadow-lg shadow-purple-500/50 flex items-center justify-center"
+                className="absolute -top-5 -right-5 w-10 h-10 bg-gradient-to-br from-purple-500 to-purple-600 rounded-full shadow-lg shadow-purple-500/50 flex items-center justify-center"
                 animate={{
                   y: [-10, 10, -10],
                   rotate: [0, 360],
@@ -368,7 +346,7 @@ export function HeroSection() {
               </motion.div>
 
               <motion.div
-                className="absolute -bottom-6 -left-6 w-16 h-16 bg-gradient-to-br from-purple-600 to-purple-400 rounded-lg shadow-lg shadow-purple-500/50"
+                className="absolute -bottom-5 -left-5 w-14 h-14 bg-gradient-to-br from-purple-600 to-purple-400 rounded-lg shadow-lg shadow-purple-500/50"
                 animate={{
                   y: [10, -10, 10],
                   rotate: [0, -180, -360],

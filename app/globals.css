@@ -152,7 +152,7 @@
 
 /* Hero typography */
 .hero-heading {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(2rem, 4.2vw, 2.8rem);
   font-weight: 800;
   line-height: 1.2;
   margin-bottom: 20px;
@@ -162,7 +162,7 @@
   display: inline-flex;
   align-items: center;
   color: #a855f7;
-  min-width: 14ch;
+  min-width: 10ch;
   text-align: left;
   position: relative;
   vertical-align: middle;
@@ -196,7 +196,7 @@
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #c4b5fd;
   margin-top: 20px;
   line-height: 1.6;
@@ -204,11 +204,11 @@
 
 @media (max-width: 768px) {
   .hero-heading {
-    font-size: 2.5rem;
+    font-size: 1.9rem;
   }
 
   .hero-rotating-word {
-    min-width: 11ch;
+    min-width: 8ch;
   }
 }
 

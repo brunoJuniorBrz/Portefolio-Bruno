@@ -106,7 +106,8 @@ export function SkillSphere() {
       const prevRadius = radius || 1
       width = canvas.clientWidth
       height = canvas.clientHeight
-      radius = Math.min(width, height) * 0.52
+      const radiusMultiplier = width < 480 ? 0.38 : width < 768 ? 0.45 : 0.52
+      radius = Math.min(width, height) * radiusMultiplier
       canvas.width = width * DPR
       canvas.height = height * DPR
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0)
@@ -126,6 +127,8 @@ export function SkillSphere() {
       const centerY = height / 2
       const sorted = [...particles].sort((a, b) => b.z - a.z)
 
+      const fontSize = width < 480 ? 18 : width < 768 ? 22 : 26
+
       sorted.forEach((particle) => {
         const scale = 1 + particle.z / radius
         const alpha = 0.7 + 0.3 * (particle.z / radius)
@@ -134,7 +137,7 @@ export function SkillSphere() {
         ctx.scale(scale, scale)
         ctx.globalAlpha = Math.max(0.2, Math.min(1, alpha))
         ctx.fillStyle = particle.skill.color
-        ctx.font = "700 26px Inter, sans-serif"
+        ctx.font = `700 ${fontSize}px Inter, sans-serif`
         const textWidth = ctx.measureText(particle.skill.name).width
         ctx.fillText(particle.skill.name, -textWidth / 2, 7)
         ctx.restore()
@@ -219,7 +222,7 @@ export function SkillSphere() {
   }, [])
 
   return (
-    <div className="relative h-[520px] w-full select-none">
+    <div className="relative h-[340px] sm:h-[420px] lg:h-[520px] w-full select-none">
       <canvas
         ref={canvasRef}
         className="h-full w-full rounded-xl bg-transparent touch-none"
