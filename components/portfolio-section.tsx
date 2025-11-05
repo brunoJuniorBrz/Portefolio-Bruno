@@ -85,6 +85,8 @@ export function PortfolioSection() {
                     alt={project?.title || 'Projeto'}
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
+                    loading="lazy"
+                    sizes="(max-width: 1024px) 100vw, 50vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black via-black/50 to-transparent opacity-60 group-hover:opacity-80 transition-opacity duration-300" />
                   

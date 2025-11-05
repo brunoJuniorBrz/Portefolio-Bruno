@@ -62,7 +62,8 @@ export function AboutSection() {
                 width={140}
                 height={140}
                 className="h-full w-auto object-contain"
-                priority
+                loading="lazy"
+                sizes="(max-width: 640px) 55px, (max-width: 1024px) 110px, 140px"
               />
             </motion.div>
 
@@ -99,7 +100,8 @@ export function AboutSection() {
                 width={140}
                 height={140}
                 className="h-full w-auto object-contain"
-                priority
+                loading="lazy"
+                sizes="(max-width: 640px) 55px, (max-width: 1024px) 110px, 140px"
               />
             </motion.div>
           </div>
