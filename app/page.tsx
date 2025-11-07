@@ -2,7 +2,7 @@ import dynamic from 'next/dynamic'
 import { Header } from '@/components/header'
 import { HeroSection } from '@/components/hero-section'
 
-// Lazy load components that are below the fold
+// Lazy load dos blocos abaixo da dobra para reduzir o JS enviado no first paint
 const ParticleNetwork = dynamic(() => import('@/components/particle-network').then(mod => ({ default: mod.ParticleNetwork })), {
   ssr: false,
 })
