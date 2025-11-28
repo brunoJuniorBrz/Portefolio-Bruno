@@ -176,7 +176,7 @@ export function HeroSection() {
   return (
     <section
       id="home"
-      className="relative overflow-hidden min-h-screen px-6 sm:px-8"
+      className="relative overflow-hidden min-h-screen px-6 sm:px-8 pt-20 pb-10"
     >
       {/* Cursor follower effect */}
       <motion.div
@@ -193,9 +193,9 @@ export function HeroSection() {
       />
 
       {/* Content */}
-      <div className="relative z-10 max-w-7xl mx-auto w-full pt-24 pb-16">
+      <div className="relative z-10 max-w-7xl mx-auto w-full pt-10 pb-8">
         <div className="flex flex-col items-center gap-12 lg:grid lg:grid-cols-[1.2fr_1fr] lg:items-center lg:gap-16">
-          
+
           {/* Text Content */}
           <motion.div
             className="w-full max-w-[620px] text-center lg:text-left mx-auto lg:mx-0"
@@ -355,7 +355,7 @@ export function HeroSection() {
                   ease: "easeInOut"
                 }}
               />
-              
+
               <motion.div
                 className="relative w-60 h-60 sm:w-72 sm:h-72 lg:w-[450px] lg:h-[450px] rounded-full bg-gradient-to-br from-purple-500/20 to-transparent backdrop-blur-sm border-2 border-purple-500/30 p-2 shadow-2xl shadow-purple-500/25"
                 whileHover={{ scale: 1.05 }}
@@ -373,7 +373,7 @@ export function HeroSection() {
                   />
                 </div>
               </motion.div>
-              
+
               {/* Floating elements */}
               <motion.div
                 className="absolute -top-8 -right-8 w-[70px] h-[70px] bg-gradient-to-br from-purple-500 to-purple-600 rounded-full shadow-lg shadow-purple-500/50 flex items-center justify-center"

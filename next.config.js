@@ -19,6 +19,11 @@ const nextConfig = {
         hostname: 'cdn.abacus.ai',
         pathname: '/images/**',
       },
+      {
+        protocol: 'https',
+        hostname: 'images.unsplash.com',
+        pathname: '/**',
+      },
     ],
   },
   experimental: {

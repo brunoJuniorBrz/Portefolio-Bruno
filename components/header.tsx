@@ -2,6 +2,7 @@
 "use client"
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Menu, X, User, Briefcase, Code, Mail, Rocket, Quote } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -39,11 +40,10 @@ export function Header() {
 
   return (
     <motion.header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled 
-          ? 'bg-black/60 backdrop-blur-xl border-b border-purple-500/20 shadow-lg shadow-purple-500/10' 
-          : 'bg-transparent'
-      }`}
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${isScrolled
+        ? 'bg-black/60 backdrop-blur-xl border-b border-purple-500/20 shadow-lg shadow-purple-500/10'
+        : 'bg-transparent'
+        }`}
       initial={{ y: -100 }}
       animate={{ y: 0 }}
       transition={{ duration: 0.6 }}
@@ -58,9 +58,15 @@ export function Header() {
           >
             <button
               onClick={() => scrollToSection('#home')}
-              className="text-2xl font-bold gradient-text glow-text"
+              className="relative w-12 h-12"
             >
-              BG
+              <Image
+                src="/logo.png"
+                alt="Logo"
+                fill
+                className="object-contain"
+                priority
+              />
             </button>
           </motion.div>
 

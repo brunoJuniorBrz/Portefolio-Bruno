@@ -73,11 +73,10 @@ function DeviceSwitch({ value, onChange }: { value: DeviceView; onChange: (view:
           type="button"
           onClick={() => onChange(id)}
           aria-pressed={value === id}
-          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm transition-all ${
-            value === id
-              ? 'bg-gradient-to-r from-purple-600 to-fuchsia-500 text-white shadow-[0_15px_60px_rgba(168,85,247,0.35)]'
-              : 'text-white/60 hover:text-white/80'
-          }`}
+          className={`flex items-center gap-2 rounded-xl px-4 py-2 text-sm transition-all ${value === id
+            ? 'bg-gradient-to-r from-purple-600 to-fuchsia-500 text-white shadow-[0_15px_60px_rgba(168,85,247,0.35)]'
+            : 'text-white/60 hover:text-white/80'
+            }`}
         >
           <Icon className="h-4 w-4" />
           {label}
@@ -379,11 +378,11 @@ export function PortfolioSection() {
   }, [drawerProject])
 
   return (
-    <section id="portfolio" className="py-32 relative overflow-hidden">
+    <section id="portfolio" className="py-16 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-20 left-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
       <div className="absolute bottom-20 right-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
-      
+
       <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -432,7 +431,7 @@ export function PortfolioSection() {
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-90 transition-opacity" />
-                  
+
                   {/* Category badge */}
                   <div className="absolute top-4 right-4">
                     <Badge className="bg-white/10 backdrop-blur-sm text-white border-white/20 px-3 py-1 text-xs font-medium">
@@ -447,68 +446,34 @@ export function PortfolioSection() {
                       className="bg-white text-purple-600 hover:bg-purple-50 shadow-lg transform scale-90 group-hover:scale-100 transition-all"
                       size="sm"
                     >
-                      <ExternalLink className="h-4 w-4 mr-2" />
-                      Ver Projeto
+                      Visitar Site
                     </Button>
                   </div>
                 </div>
 
-                {/* Content */}
                 <div className="p-6">
-                  {/* Title and Date */}
-                  <div className="mb-3">
-                    <h3 className="text-xl font-bold mb-1 gradient-text group-hover:text-purple-400 transition-colors">
-                      {project?.title}
-                    </h3>
-                    <div className="flex items-center text-sm text-white/50">
-                      <Calendar className="h-3 w-3 mr-1" />
-                      {project?.date}
-                    </div>
-                  </div>
+                  <h3 className="text-xl font-bold mb-2 text-white">{project?.title}</h3>
+                  <p className="text-white/60 text-sm mb-4 line-clamp-2">{project?.description}</p>
 
-                  {/* Description */}
-                  <p className="text-white/70 text-sm mb-4 line-clamp-2">
-                    {project?.description}
-                  </p>
-
-                  {/* Technologies */}
-                  <div className="mb-4">
-                    <div className="flex flex-wrap gap-1">
-                      {project?.technologies?.slice(0, 3)?.map((tech) => (
-                        <Badge 
-                          key={tech} 
-                          className="bg-purple-500/10 text-purple-300 border-purple-500/20 text-xs px-2 py-0.5"
-                        >
-                          {tech}
-                        </Badge>
-                      ))}
-                      {project?.technologies?.length > 3 && (
-                        <Badge className="bg-purple-500/10 text-purple-300 border-purple-500/20 text-xs px-2 py-0.5">
-                          +{project?.technologies?.length - 3}
-                        </Badge>
-                      )}
-                    </div>
-                  </div>
-
-                  {/* Features */}
-                  <div className="space-y-1 mb-4">
-                    {project?.features?.slice(0, 2)?.map((feature, idx) => (
-                      <div key={idx} className="flex items-center text-xs text-white/60">
-                        <div className="w-1 h-1 bg-purple-500 rounded-full mr-2" />
-                        {feature}
-                      </div>
+                  <div className="flex flex-wrap gap-2 mb-6">
+                    {project?.technologies?.slice(0, 3).map((tech) => (
+                      <Badge
+                        key={tech}
+                        variant="secondary"
+                        className="bg-white/5 text-white/70 hover:bg-white/10 border-white/5"
+                      >
+                        {tech}
+                      </Badge>
                     ))}
                   </div>
 
-                  {/* Action */}
                   <Button
                     onClick={() => setDrawerProject(project)}
-                    variant="ghost"
-                    className="w-full border border-purple-500/20 text-purple-200 hover:bg-purple-500/10"
-                    size="sm"
+                    className="w-full bg-white/5 hover:bg-white/10 text-white border border-white/10 hover:border-purple-500/50 transition-all group-hover:shadow-[0_0_20px_rgba(168,85,247,0.15)]"
+                    variant="outline"
                   >
-                    Ver mais
-                    <ArrowRight className="h-3 w-3 ml-1" />
+                    Ver Detalhes
+                    <ArrowRight className="h-4 w-4 ml-2" />
                   </Button>
                 </div>
               </div>
@@ -516,9 +481,9 @@ export function PortfolioSection() {
           ))}
         </div>
 
-        {/* CTA Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
+
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.4 }}
           className="text-center relative z-10"
@@ -535,14 +500,14 @@ export function PortfolioSection() {
             <p className="text-white/60 text-lg mb-8 max-w-2xl mx-auto">
               Vamos transformar sua ideia em realidade digital. Entre em contato e descubra como podemos criar algo incrível juntos.
             </p>
-            <Button 
+            <Button
               onClick={() => {
                 const element = document.querySelector('#contact')
                 if (element) {
                   element.scrollIntoView({ behavior: 'smooth' })
                 }
               }}
-              size="lg" 
+              size="lg"
               className="px-8 py-6 text-lg bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 btn-glow"
             >
               Vamos Conversar

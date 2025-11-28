@@ -1,3 +1,5 @@
+import Image from 'next/image'
+
 type InfoItem = {
   icon: string
   title: string
@@ -16,20 +18,20 @@ export function AboutCard() {
     <article
       role="region"
       aria-label="Sobre Bruno Gonçalves"
-      className="group relative w-full overflow-hidden rounded-3xl card-glow p-8 transition-all duration-300 hover:-translate-y-1 hover:border-purple-400/60"
+      className="relative w-full overflow-hidden rounded-3xl bg-transparent p-8"
     >
-      {/* highlight sweep */}
-      <span
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 -translate-x-full bg-gradient-to-r from-transparent via-purple-400/20 to-transparent transition-transform duration-700 group-hover:translate-x-full"
-      />
 
       <header className="mb-6 flex items-center gap-5">
         <div
           aria-hidden="true"
-          className="grid h-20 w-20 shrink-0 place-items-center rounded-full border-4 border-purple-500/40 bg-gradient-to-br from-purple-500 to-pink-500 shadow-[0_8px_24px_rgba(168,85,247,0.35)]"
+          className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full border-4 border-purple-500/40 shadow-[0_8px_24px_rgba(168,85,247,0.35)]"
         >
-          <span className="text-3xl font-black text-white tracking-wide">BG</span>
+          <Image
+            src="/logo.png"
+            alt="Logo"
+            fill
+            className="object-cover"
+          />
         </div>
 
         <div className="min-w-0">

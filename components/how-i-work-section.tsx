@@ -34,7 +34,7 @@ export function HowIWorkSection() {
   })
 
   return (
-    <section id="processo" className="py-32 relative overflow-hidden">
+    <section id="processo" className="py-16 relative overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-10 left-24 w-72 h-72 bg-purple-600/10 rounded-full blur-3xl" />
         <div className="absolute bottom-16 right-16 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl" />

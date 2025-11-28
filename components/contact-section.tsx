@@ -54,11 +54,11 @@ export function ContactSection() {
   }
 
   return (
-    <section id="contact" className="py-32 relative overflow-hidden">
+    <section id="contact" className="py-16 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-20 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
       <div className="absolute bottom-20 left-10 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
-      
+
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -87,7 +87,7 @@ export function ContactSection() {
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          
+
           {/* Contact Form */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
@@ -99,7 +99,7 @@ export function ContactSection() {
                 <Send className="h-6 w-6 mr-3" />
                 Envie uma Mensagem
               </h3>
-              
+
               <form onSubmit={handleSubmit} className="space-y-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-white/80 mb-2 flex items-center">
@@ -179,7 +179,7 @@ export function ContactSection() {
           >
             <div className="card-glow p-8 flex-grow">
               <h3 className="text-2xl font-bold mb-6 gradient-text">Informações de Contato</h3>
-              
+
               <div className="space-y-6">
                 <div className="flex items-start">
                   <div className="flex-shrink-0 w-12 h-12 rounded-full bg-purple-500/20 flex items-center justify-center mr-4">
@@ -187,8 +187,8 @@ export function ContactSection() {
                   </div>
                   <div>
                     <h4 className="font-semibold text-white mb-1">E-mail</h4>
-                    <a 
-                      href="mailto:bruno.importacao1996@gmail.com" 
+                    <a
+                      href="mailto:bruno.importacao1996@gmail.com"
                       className="text-white/60 hover:text-purple-400 transition-colors"
                     >
                       bruno.importacao1996@gmail.com
@@ -211,7 +211,7 @@ export function ContactSection() {
                   <p className="text-white/60 mb-6">
                     Conecte-se comigo nas redes sociais para acompanhar meu trabalho
                   </p>
-                  
+
                   <div className="flex gap-4">
                     <motion.div whileHover={{ scale: 1.1, y: -3 }} whileTap={{ scale: 0.95 }}>
                       <Button

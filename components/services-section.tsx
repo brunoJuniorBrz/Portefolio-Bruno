@@ -62,11 +62,11 @@ export function ServicesSection() {
   }
 
   return (
-    <section id="services" className="pt-20 pb-32 relative overflow-hidden">
+    <section id="services" className="pt-12 pb-16 relative overflow-hidden">
       {/* Decorative elements */}
       <div className="absolute top-10 right-20 w-96 h-96 bg-purple-600/10 rounded-full blur-3xl" />
       <div className="absolute bottom-10 left-20 w-72 h-72 bg-purple-500/10 rounded-full blur-3xl" />
-      
+
       <div className="relative z-10 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
           ref={ref}
@@ -145,8 +145,8 @@ export function ServicesSection() {
                         {service?.price}
                       </div>
                     </div>
-                    
-                    <Button 
+
+                    <Button
                       onClick={scrollToContact}
                       className="w-full bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 text-white shadow-lg shadow-purple-500/30 hover:shadow-purple-500/50 transition-all btn-glow"
                     >
@@ -172,12 +172,12 @@ export function ServicesSection() {
               Não encontrou o que procura?
             </h3>
             <p className="text-white/60 mb-8 max-w-2xl mx-auto text-lg hover-glow cursor-default">
-              Cada projeto é único! Entre em contato e vamos conversar sobre suas necessidades específicas. 
+              Cada projeto é único! Entre em contato e vamos conversar sobre suas necessidades específicas.
               Juntos, encontraremos a solução ideal para o seu negócio.
             </p>
-            <Button 
-              onClick={scrollToContact} 
-              size="lg" 
+            <Button
+              onClick={scrollToContact}
+              size="lg"
               className="px-10 py-6 text-lg bg-gradient-to-r from-purple-600 to-purple-500 hover:from-purple-500 hover:to-purple-400 shadow-lg shadow-purple-500/50 hover:shadow-purple-500/70 btn-glow"
             >
               Vamos Conversar
